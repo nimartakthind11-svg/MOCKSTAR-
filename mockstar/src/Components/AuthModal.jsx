@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const AuthModal = ({ isOpen, onClose, initialMode = "login" }) => {
+const AuthModal = ({ isOpen, onClose, initialMode = "login", onLoginSuccess, onSignupSuccess }) => {
   const [mode, setMode] = useState(initialMode); // 'login' or 'signup'
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -41,16 +41,26 @@ const AuthModal = ({ isOpen, onClose, initialMode = "login" }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Catchy error/validation animation demo: if fields are empty or invalid
+
+    // Validation
     if (!email || !password || (mode === "signup" && (!name || !agreeTerms))) {
       triggerShake();
       return;
     }
 
-    // Success flow - mock action
-    alert(`${mode === "login" ? "Logged in" : "Signed up"} successfully with: ${email}`);
-    onClose();
+    if (mode === "signup") {
+      // Save the name, then slide back to login tab so user logs in
+      if (onSignupSuccess) onSignupSuccess(name.trim());
+      // Reset fields and switch to login
+      setEmail("");
+      setPassword("");
+      setAgreeTerms(false);
+      setMode("login");
+    } else {
+      // Login → close modal and go to dashboard
+      if (onLoginSuccess) onLoginSuccess();
+      onClose();
+    }
   };
 
   const triggerShake = () => {
