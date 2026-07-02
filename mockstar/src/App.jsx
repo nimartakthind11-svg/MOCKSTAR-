@@ -7,6 +7,8 @@ import Dashboard from "./Components/Dashboard";
 import BuildProfile from "./Components/BuildProfile";
 import ResumeUpload from "./Components/ResumeUpload";
 import InterviewSetup from "./Components/InterviewSetup";
+import InterviewSession from "./Components/InterviewSession";
+import PerformanceReport from "./Components/PerformanceReport";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,6 +22,8 @@ function App() {
   });
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState("login");
+  const [interviewConfig, setInterviewConfig] = useState(null);
+  const [interviewTranscript, setInterviewTranscript] = useState(null);
 
   const openAuth = (mode = "login") => {
     setAuthMode(mode);
@@ -82,9 +86,31 @@ function App() {
         <InterviewSetup
           onBack={() => setCurrentView("resume-upload")}
           onStart={(config) => {
-            // Future: pass config to interview session
-            console.log("Starting interview with config:", config);
+            setInterviewConfig(config);
+            setCurrentView("interview-session");
           }}
+        />
+      );
+    }
+
+    if (currentView === "interview-session") {
+      return (
+        <InterviewSession 
+          config={interviewConfig}
+          onEnd={(transcript) => {
+            setInterviewTranscript(transcript);
+            setCurrentView("performance-report");
+          }}
+        />
+      );
+    }
+
+    if (currentView === "performance-report") {
+      return (
+        <PerformanceReport
+          transcript={interviewTranscript}
+          config={interviewConfig}
+          onBackToDashboard={() => setCurrentView("dashboard")}
         />
       );
     }
