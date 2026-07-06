@@ -129,10 +129,17 @@ function AppInner() {
     if (currentView === "performance-report") {
       return (
         <PerformanceReport
-          transcript={interviewTranscript}
-          config={interviewConfig}
-          score={currentSessionScore}
-          onBackToDashboard={() => setCurrentView("dashboard")}
+          report={{
+            score: currentSessionScore,
+            date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
+            role: interviewConfig?.customRole || interviewConfig?.interviewType || "Practice Session",
+            type: interviewConfig?.interviewType,
+            difficulty: interviewConfig?.difficulty,
+            questionsCount: interviewConfig?.questionCount,
+            transcript: interviewTranscript
+          }}
+          onBackToDash={() => setCurrentView("dashboard")}
+          onRetry={() => setCurrentView("interview-setup")}
         />
       );
     }
