@@ -1,5 +1,4 @@
-@import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 
 /* ══════════════════════════════════════════════════
    DESIGN TOKENS — Light Mode
@@ -14,7 +13,7 @@
   --bg-subtle:      #F2EDE8;
 
   /* Brand */
-  --accent:         #B65E42;
+  --accent:         #ae583e;
   --accent-hover:   #A24E34;
   --accent-light:   #D98A68;
   --accent-glow:    rgba(182, 94, 66, 0.18);
@@ -63,9 +62,9 @@
    DESIGN TOKENS — Dark Mode
 ══════════════════════════════════════════════════ */
 html.dark {
-  --bg-primary:     #131416;
-  --bg-card:        #232427;
-  --bg-card-hover:  #2A2D30;
+  --bg-primary:     radial-gradient(ellipse at top left, #291E19 0%, #131416 100%);
+  --bg-card:        rgba(35, 36, 39, 0.7);
+  --bg-card-hover:  rgba(42, 45, 48, 0.8);
   --bg-nav:         rgba(19, 20, 22, 0.88);
   --bg-input:       #1E2022;
   --bg-subtle:      #1A1C1F;

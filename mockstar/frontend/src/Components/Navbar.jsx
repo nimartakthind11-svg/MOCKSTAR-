@@ -4,143 +4,143 @@ import { useTheme } from '../context/ThemeContext';
 const Navbar = ({ onAuthClick }) => {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
-  const [hoverAuth, setHoverAuth] = useState(false);
-  const [navScrolled, setNavScrolled] = useState(false);
+  const [activeLink, setActiveLink] = useState('how-it-works');
 
-  React.useEffect(() => {
-    const handleScroll = () => setNavScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const scrollToSection = (e, id) => {
+    e.preventDefault();
+    setActiveLink(id);
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <nav
-      className="ms-glass"
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 100,
-        transition: 'box-shadow 0.3s ease',
-        boxShadow: navScrolled ? 'var(--shadow-md)' : 'none',
-      }}
-    >
-      <div
-        className="ms-container"
+    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', position: 'absolute', top: 0, zIndex: 100 }}>
+      <nav
         style={{
+          width: '100%',
+          maxWidth: 1200,
+          padding: '24px 32px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: 64,
         }}
       >
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, userSelect: 'none' }}>
-          <div
-            style={{
-              width: 28,
-              height: 28,
-              borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%)',
-              boxShadow: '0 0 12px var(--accent-glow)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexShrink: 0,
-            }}
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M6 1L7.8 4.2L11 4.8L8.6 7.2L9.2 10.5L6 8.8L2.8 10.5L3.4 7.2L1 4.8L4.2 4.2L6 1Z" fill="white" />
-            </svg>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
-            <span
-              style={{
-                fontFamily: "'Fraunces', serif",
-                fontSize: 17,
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                letterSpacing: '-0.01em',
-              }}
-            >
+        {/* Left: Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'var(--accent)' }} />
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 16, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>
               Mockstar
             </span>
-            <span
-              style={{
-                fontFamily: "'JetBrains Mono', monospace",
-                fontSize: 9,
-                color: 'var(--text-muted)',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-              }}
-            >
+            <span style={{ fontFamily: "'Inter', sans-serif", fontSize: 11, fontWeight: 500, color: 'var(--text-muted)' }}>
               by Mocktane
             </span>
           </div>
         </div>
 
-        {/* Center link */}
-        <div className="hide-mobile">
-          <a
-            href="mailto:mocktane@gmail.com"
-            style={{
-              fontSize: 13,
-              color: 'var(--text-muted)',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color 0.2s ease',
-              position: 'relative',
-            }}
-            onMouseEnter={e => e.target.style.color = 'var(--accent)'}
-            onMouseLeave={e => e.target.style.color = 'var(--text-muted)'}
-          >
-            mocktane@gmail.com
-          </a>
+        {/* Center: Links */}
+        <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          {[
+            { label: 'How it works', id: 'how-it-works' },
+            { label: 'Features', id: 'features' },
+            { label: 'FAQ', id: 'faq' },
+            { label: 'Contact : mocktane@gmail.com', id: 'contact' }
+          ].map((link) => {
+            const isActive = activeLink === link.id;
+            return (
+              <a
+                key={link.id}
+                href={`#${link.id}`}
+                onClick={(e) => scrollToSection(e, link.id)}
+                style={{
+                  fontSize: 13,
+                  fontWeight: 500,
+                  fontFamily: "'Inter', sans-serif",
+                  color: isActive ? 'var(--text-primary)' : 'var(--text-muted)',
+                  textDecoration: 'none',
+                  padding: '6px 14px',
+                  borderRadius: 6,
+                  background: isActive ? 'var(--accent-soft)' : 'transparent',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={e => {
+                  if (!isActive) e.target.style.color = 'var(--text-primary)';
+                }}
+                onMouseLeave={e => {
+                  if (!isActive) e.target.style.color = 'var(--text-muted)';
+                }}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
-        {/* Right actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          {/* Theme toggle */}
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            aria-label="Toggle theme"
-          >
-            <span className="theme-toggle__thumb">
-              {isDark ? '🌙' : '☀️'}
-            </span>
-          </button>
+        {/* Right: Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {/* Theme Toggle inside a pill */}
+          <div style={{ background: 'var(--accent-soft)', padding: '4px', borderRadius: 999, display: 'flex' }}>
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: isDark ? 'transparent' : '#fff',
+                border: 'none', borderRadius: 999, width: 28, height: 28,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', boxShadow: isDark ? 'none' : '0 2px 4px rgba(0,0,0,0.05)',
+                transition: 'all 0.2s', fontSize: 14
+              }}
+            >
+              ☀️
+            </button>
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: isDark ? '#2A2D30' : 'transparent',
+                border: 'none', borderRadius: 999, width: 28, height: 28,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer', boxShadow: isDark ? '0 2px 4px rgba(0,0,0,0.2)' : 'none',
+                transition: 'all 0.2s', fontSize: 14
+              }}
+            >
+              🌙
+            </button>
+          </div>
 
-          {/* Auth button */}
-          <button
-            id="navbar-auth-btn"
-            onClick={onAuthClick}
-            onMouseEnter={() => setHoverAuth(true)}
-            onMouseLeave={() => setHoverAuth(false)}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '9px 20px',
-              background: hoverAuth ? 'var(--accent-hover)' : 'var(--accent)',
-              color: '#F8F5F2',
-              border: 'none',
-              borderRadius: '999px',
-              fontSize: 13,
-              fontWeight: 600,
-              fontFamily: "'Inter', sans-serif",
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              boxShadow: hoverAuth ? '0 6px 20px var(--accent-glow)' : '0 2px 8px var(--accent-glow)',
-              transform: hoverAuth ? 'translateY(-1px)' : 'translateY(0)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            Log in / Sign up
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              onClick={onAuthClick}
+              style={{
+                padding: '8px 18px', background: 'transparent', color: 'var(--text-primary)',
+                border: '1px solid var(--border-strong)', borderRadius: 8,
+                fontSize: 13, fontWeight: 600, fontFamily: "'Inter', sans-serif",
+                cursor: 'pointer', transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-soft)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+            >
+              Log in
+            </button>
+            <button
+              onClick={onAuthClick}
+              style={{
+                padding: '8px 20px', background: 'var(--accent)', color: '#F8F5F2',
+                border: 'none', borderRadius: 8,
+                fontSize: 13, fontWeight: 600, fontFamily: "'Inter', sans-serif",
+                cursor: 'pointer', transition: 'all 0.2s ease',
+                boxShadow: '0 4px 12px var(--accent-glow)'
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              Get started
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 
