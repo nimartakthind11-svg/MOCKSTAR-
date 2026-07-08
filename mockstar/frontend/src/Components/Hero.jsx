@@ -40,7 +40,7 @@ const Hero = ({ onStartPractice }) => {
 
           <h1 className="animate-fadeUp" style={{ animationDelay: '0.1s', fontFamily: "'Fraunces', serif", fontSize: 'clamp(3rem, 5vw, 4.5rem)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.02em', color: 'var(--text-primary)', margin: '0 0 24px' }}>
             Practice the interview <br />
-            <span style={{ color: 'var(--accent)' }}>before it's the real one.</span>
+            <span style={{ color: 'var(--accent)' }}>before it's the real one</span>
           </h1>
 
           <p className="animate-fadeUp" style={{ animationDelay: '0.2s', fontSize: 'clamp(16px, 1.8vw, 18px)', color: 'var(--text-muted)', lineHeight: 1.6, margin: '0 0 40px', maxWidth: 520 }}>

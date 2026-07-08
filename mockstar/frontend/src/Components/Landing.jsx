@@ -131,7 +131,7 @@ export default function Landing({ onStartPractice }) {
           
           {/* Left side (Sticky) */}
           <div style={{ flex: '1 1 400px', alignSelf: 'flex-start', position: 'sticky', top: 120 }}>
-            <SectionHead title="A completely new way to prepare." align="left" subtitle="Stop relying on generic question banks. We read your resume and dynamically generate questions exactly like a real recruiter would." />
+            <SectionHead title="A completely new way to prepare" align="left" subtitle="Stop relying on generic question banks. We read your resume and dynamically generate questions exactly like a real recruiter would." />
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24, marginTop: 40 }}>
               {[
@@ -189,7 +189,7 @@ export default function Landing({ onStartPractice }) {
       <section id="features" style={{ padding: '120px 32px', background: 'var(--bg-card)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <FadeUp>
-            <SectionHead title="Engineered for reality." subtitle="Features designed specifically to mimic the pressure and context of high-stakes technical interviews." />
+            <SectionHead title="Engineered for reality" subtitle="Every feature is designed to simulate the pressure, flow, and expectations of real technical interviews." />
           </FadeUp>
           
           <div
@@ -209,32 +209,83 @@ export default function Landing({ onStartPractice }) {
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                   </div>
                   <h3 style={{ fontSize: 32, fontWeight: 500, fontFamily: "'Fraunces', serif", color: 'var(--text-primary)', marginBottom: 16, letterSpacing: '-0.01em' }}>Context-Aware Intelligence</h3>
-                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>Our engine doesn't just match keywords. It understands the seniority of your resume, tailoring question complexity specifically to your actual experience level.</p>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>AI analyzes your resume to understand your skills and experience, generating interview questions tailored specifically to your profile.</p>
                 </div>
               </div>
             </FadeUp>
 
-            {/* Small Card 1 */}
-            <FadeUp delay={0.2}>
-              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 40, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            {/* Large Card 2 */}
+                        <FadeUp delay={0.1}>
+              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <h3 style={{ fontSize: 32, fontWeight: 500, fontFamily: "'Fraunces', serif", color: 'var(--text-primary)', marginBottom: 16, letterSpacing: '-0.01em' }}>Interview Integrity</h3>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>Detects tab switching and copy-paste attempts to recreate the focus and accountability of real interviews.AI analyzes your resume to understand your skills and experience, generating interview questions tailored specifically to your profile.</p>
                 </div>
-                <h3 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 12 }}>Integrity Monitoring</h3>
-                <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6 }}>Tracks tab switches and copy-pasting to simulate high-stakes environments perfectly.</p>
               </div>
             </FadeUp>
 
-            {/* Small Card 2 */}
-            <FadeUp delay={0.3}>
-              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 40, height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            {/* Large Card 3 */}
+                        <FadeUp delay={0.1}>
+              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <h3 style={{ fontSize: 32, fontWeight: 500, fontFamily: "'Fraunces', serif", color: 'var(--text-primary)', marginBottom: 16, letterSpacing: '-0.01em' }}>Distraction-Free Interface</h3>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>Our interface is designed to minimize distractions, ensuring you can focus entirely on your interview practice and performance improvement.</p>
                 </div>
-                <h3 style={{ fontSize: 22, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 12 }}>Distraction-Free UI</h3>
-                <p style={{ fontSize: 16, color: 'var(--text-muted)', lineHeight: 1.6 }}>A minimal chat interface ensures you focus on answering the question, nothing else.</p>
               </div>
             </FadeUp>
+
+
+            {/* Large Card 4 */}
+                        <FadeUp delay={0.1}>
+              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <h3 style={{ fontSize: 32, fontWeight: 500, fontFamily: "'Fraunces', serif", color: 'var(--text-primary)', marginBottom: 16, letterSpacing: '-0.01em' }}>Resume Aware Questions</h3>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>Our AI analyzes your resume, skills, and experience to generate interview questions tailored specifically to your background instead of asking generic questions.</p>
+                </div>
+              </div>
+            </FadeUp>
+
+            {/* Large Card 5 */}
+                        <FadeUp delay={0.1}>
+              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <h3 style={{ fontSize: 32, fontWeight: 500, fontFamily: "'Fraunces', serif", color: 'var(--text-primary)', marginBottom: 16, letterSpacing: '-0.01em' }}>Personalized Interview Setup</h3>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>Configure every interview to match your goals by selecting the interview type, difficulty level, question count, focus areas, and target role before you begin.</p>
+                </div>
+              </div>
+            </FadeUp>
+
+            {/* Large Card 6 */}
+                        <FadeUp delay={0.1}>
+              <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
+                    <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  </div>
+                  <h3 style={{ fontSize: 32, fontWeight: 500, fontFamily: "'Fraunces', serif", color: 'var(--text-primary)', marginBottom: 16, letterSpacing: '-0.01em' }}>Performance Analytics</h3>
+                  <p style={{ fontSize: 18, color: 'var(--text-muted)', lineHeight: 1.6 }}>Track your progress with detailed performance reports, strengths, improvement areas, and interview history to measure growth over time.</p>
+                </div>
+              </div>
+            </FadeUp>
+
+            
           </div>
         </div>
       </section>
@@ -243,7 +294,7 @@ export default function Landing({ onStartPractice }) {
       <section id="faq" style={{ padding: '160px 32px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <FadeUp>
-            <SectionHead title="Common questions." align="center" />
+            <SectionHead title="Common questions" align="center" />
           </FadeUp>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: 40 }}>
@@ -278,10 +329,10 @@ export default function Landing({ onStartPractice }) {
             
             <div style={{ position: 'relative', zIndex: 1, maxWidth: 600, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(3rem, 6vw, 4.5rem)', fontWeight: 500, color: '#F8F5F2', marginBottom: 24, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                Stop winging it.
+                Stop winging it
               </h2>
               <p style={{ fontSize: 20, color: '#A89E98', marginBottom: 48, lineHeight: 1.5, fontWeight: 400 }}>
-                Join thousands of candidates who practice with Mockstar before their real interviews.
+                Practice AI-powered interviews tailored to your resume, receive instant feedback, and walk into every interview with confidence
               </p>
               <button
                 onClick={onStartPractice}
@@ -294,7 +345,7 @@ export default function Landing({ onStartPractice }) {
                 onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'; e.currentTarget.style.boxShadow = '0 12px 40px rgba(255,255,255,0.2)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(255,255,255,0.1)'; }}
               >
-                Create free account
+                Create Free Account
               </button>
             </div>
           </div>
@@ -318,7 +369,7 @@ export default function Landing({ onStartPractice }) {
           </div>
 
           <div style={{ display: 'flex', gap: 16 }}>
-            <span style={{ fontSize: 13, color: 'var(--text-faint)' }}>© 2026 Mocktane</span>
+            <span style={{ fontSize: 13, color: 'var(--text-faint)' }}>© 2026 Mockstar</span>
           </div>
         </div>
       </footer>
