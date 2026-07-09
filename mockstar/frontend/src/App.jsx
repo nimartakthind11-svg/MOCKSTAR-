@@ -137,8 +137,19 @@ function AppInner() {
       return (
         <InterviewSetup
           onBack={() => setCurrentView("resume-upload")}
-          onStart={(config) => {
-            setInterviewConfig(config);
+          onStart={async (config) => {
+            try {
+              const res = await sessionApi.start(config);
+              setCurrentSessionId(res.session_id);
+              setInterviewConfig({
+                ...config,
+                questions: res.questions
+              });
+            } catch (err) {
+              console.error("Failed to start session:", err);
+              setCurrentSessionId(null);
+              setInterviewConfig(config);
+            }
             setCurrentView("interview-session");
           }}
         />
@@ -149,8 +160,27 @@ function AppInner() {
       return (
         <InterviewSession 
           config={interviewConfig}
-          onEnd={(transcript, evaluation) => {
-            const score = evaluation?.score ?? Math.min(65 + transcript.filter(m => m.role === "candidate").length * 5, 100);
+          onEnd={async (transcript) => {
+            let evaluation = null;
+            let finalScore = null;
+
+            if (currentSessionId) {
+              try {
+                const formattedTranscript = transcript.map(m => ({
+                  role: m.role,
+                  text: m.text,
+                  time: m.time || new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                }));
+                await sessionApi.submit(currentSessionId, formattedTranscript);
+                const report = await sessionApi.getReport(currentSessionId);
+                evaluation = report;
+                finalScore = report.score;
+              } catch (err) {
+                console.error("Error submitting session:", err);
+              }
+            }
+
+            const score = finalScore ?? evaluation?.score ?? Math.min(65 + transcript.filter(m => m.role === "candidate").length * 5, 100);
             setCurrentSessionScore(score);
             setInterviewTranscript(transcript);
             setAiReport(evaluation || null);

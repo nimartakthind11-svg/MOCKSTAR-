@@ -175,9 +175,9 @@ const InterviewSetup = ({ onBack, onStart }) => {
             <div>
               <SectionLabel number="01" label="Interview Type" delay="0.08s" />
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-                <OptionCard delay="0.1s" label="Technical" sublabel="DSA, system design, code" icon="💻" selected={interviewType === "technical"} onClick={() => setInterviewType("technical")} />
-                <OptionCard delay="0.13s" label="Behavioral" sublabel="Soft skills & leadership" icon="🧠" selected={interviewType === "behavioral"} onClick={() => setInterviewType("behavioral")} />
-                <OptionCard delay="0.16s" label="Mixed" sublabel="Best of both worlds" icon="⚡" selected={interviewType === "mixed"} onClick={() => setInterviewType("mixed")} />
+                <OptionCard delay="0.1s" label="Technical" sublabel="DSA, system design, code" selected={interviewType === "technical"} onClick={() => setInterviewType("technical")} />
+                <OptionCard delay="0.13s" label="Behavioral" sublabel="Soft skills & leadership" selected={interviewType === "behavioral"} onClick={() => setInterviewType("behavioral")} />
+                <OptionCard delay="0.16s" label="Mixed" sublabel="Best of both worlds" selected={interviewType === "mixed"} onClick={() => setInterviewType("mixed")} />
               </div>
             </div>
 
@@ -185,9 +185,9 @@ const InterviewSetup = ({ onBack, onStart }) => {
             <div>
               <SectionLabel number="02" label="Difficulty Level" delay="0.18s" />
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
-                <OptionCard delay="0.2s" label="Easy" sublabel="Entry level, fundamentals" icon="🌱" selected={difficulty === "easy"} onClick={() => setDifficulty("easy")} />
-                <OptionCard delay="0.23s" label="Medium" sublabel="Mid-level, common patterns" icon="🔥" selected={difficulty === "medium"} onClick={() => setDifficulty("medium")} />
-                <OptionCard delay="0.26s" label="Hard" sublabel="Senior level, edge cases" icon="⚔️" selected={difficulty === "hard"} onClick={() => setDifficulty("hard")} />
+                <OptionCard delay="0.2s" label="Easy" sublabel="Entry level, fundamentals" selected={difficulty === "easy"} onClick={() => setDifficulty("easy")} />
+                <OptionCard delay="0.23s" label="Medium" sublabel="Mid-level, common patterns" selected={difficulty === "medium"} onClick={() => setDifficulty("medium")} />
+                <OptionCard delay="0.26s" label="Hard" sublabel="Senior level, edge cases" selected={difficulty === "hard"} onClick={() => setDifficulty("hard")} />
               </div>
             </div>
 

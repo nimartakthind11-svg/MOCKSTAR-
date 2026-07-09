@@ -40,7 +40,9 @@ const InterviewSession = ({ onEnd, config }) => {
   useEffect(() => {
     if (config && messages.length === 0 && !initialized.current) {
       initialized.current = true;
-      const qs = getQuestionsForSession(config);
+      const qs = config.questions && config.questions.length > 0
+        ? config.questions.map((text, idx) => ({ id: `api_${idx}`, text }))
+        : getQuestionsForSession(config);
       setSessionQuestions(qs);
       if (qs.length > 0) {
         setMessages([{ id: Date.now() + Math.random(), role: "interviewer", text: qs[0].text, time: nowTime() }]);
