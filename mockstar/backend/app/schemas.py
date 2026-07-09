@@ -19,6 +19,7 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str = Field(..., min_length=6)
+    username: Optional[str] = None
 
 class UserLogin(UserBase):
     password: str

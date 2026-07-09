@@ -1,13 +1,26 @@
-#pyrefly: ignore [missing-import]
+import os
 from sqlalchemy import create_engine
-
-# pyrefly: ignore [missing-import]
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.config import settings
 
-# Create engine
-# Note: For SQLite we might need connect_args={"check_same_thread": False}, but for PostgreSQL we don't
-engine = create_engine(settings.DATABASE_URL)
+DATABASE_URL = settings.DATABASE_URL
+connect_args = {}
+
+try:
+    if DATABASE_URL.startswith("sqlite"):
+        connect_args["check_same_thread"] = False
+    
+    engine = create_engine(DATABASE_URL, connect_args=connect_args)
+    # Verify the connection works
+    with engine.connect() as conn:
+        pass
+    print("Database: Connected to PostgreSQL database successfully.")
+except Exception as e:
+    print(f"Database: Warning - Connection failed ({e}). Falling back to local SQLite database.")
+    # Place sqlite db in the backend directory
+    sqlite_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "mockstar.db")
+    DATABASE_URL = f"sqlite:///{sqlite_path}"
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -30,7 +30,7 @@ def signup(user_data: schemas.UserCreate, db: Session = Depends(get_db)):
     db.flush()  # Generate user ID before profile association
     
     # Initialize a default profile for the user
-    default_name = user_data.email.split("@")[0]
+    default_name = user_data.username or user_data.email.split("@")[0]
     default_profile = models.Profile(
         user_id=new_user.id,
         username=default_name,
