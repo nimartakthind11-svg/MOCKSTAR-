@@ -7,6 +7,7 @@ const injectStyles = () => {
   s.textContent = `
     @keyframes is-shimmer { 0% { background-position:200% center; } 100% { background-position:-200% center; } }
     @keyframes is-fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes is-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
     .is-fade-up { animation: is-fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both; }
   `;
   document.head.appendChild(s);
@@ -90,6 +91,10 @@ const InterviewSetup = ({ onBack, onStart, startError }) => {
   const [isStarting, setIsStarting] = useState(false);
 
   const handleStart = async (config) => {
+    // Ignore additional calls if a start request is already in flight
+    // (covers the gap between a rapid double-click and React re-rendering
+    // the button's disabled state).
+    if (isStarting) return;
     setIsStarting(true);
     try {
       await onStart(config);
@@ -373,6 +378,10 @@ const InterviewSetup = ({ onBack, onStart, startError }) => {
                   onClick={() => canStart && !isStarting && handleStart({ interviewType, difficulty, questionCount, focusAreas, customRole })}
                   disabled={!canStart || isStarting}
                   style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
                     padding: "13px",
                     borderRadius: 12,
                     border: "none",
@@ -390,7 +399,16 @@ const InterviewSetup = ({ onBack, onStart, startError }) => {
                   onMouseEnter={e => { if (canStart && !isStarting) { e.currentTarget.style.background = "var(--accent-hover)"; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 8px 24px var(--accent-glow)"; } }}
                   onMouseLeave={e => { if (canStart && !isStarting) { e.currentTarget.style.background = "var(--accent)"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 16px var(--accent-glow)"; } }}
                 >
-                  {isStarting ? "Starting…" : "Start Interview →"}
+                  {isStarting ? (
+                    <>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" style={{ animation: "is-spin 0.8s linear infinite" }}>
+                        <path d="M12 2a10 10 0 0 1 10 10" />
+                      </svg>
+                      Starting…
+                    </>
+                  ) : (
+                    "Start Interview →"
+                  )}
                 </button>
               </div>
             </div>

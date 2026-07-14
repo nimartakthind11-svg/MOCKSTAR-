@@ -60,6 +60,10 @@ class InterviewSession(Base):
     focus_areas = Column(JSON, nullable=True) # JSON list e.g. ["React", "CSS"]
     score = Column(Integer, nullable=True)
     transcript = Column(JSON, nullable=True) # JSON array of chat message dicts
+    # Tracks submission lifecycle so /submit can be made idempotent:
+    # 'in_progress' -> 'completed' (happy path)
+    # 'in_progress' -> 'in_progress' again if evaluation fails, so it can be retried
+    status = Column(String(20), nullable=False, server_default="in_progress")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 

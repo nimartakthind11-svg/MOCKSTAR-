@@ -90,6 +90,7 @@ class InterviewSessionOut(InterviewSessionBase):
     user_id: UUID
     score: Optional[int] = None
     transcript: Optional[List[ChatMessage]] = None
+    status: str = "in_progress"
     created_at: datetime
     updated_at: datetime
 

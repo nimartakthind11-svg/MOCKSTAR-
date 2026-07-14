@@ -53,7 +53,8 @@ def start_session(
         question_count=config.question_count,
         focus_areas=config.focus_areas,
         score=None,
-        transcript=None
+        transcript=None,
+        status="in_progress"
     )
     db.add(db_session)
     db.commit()
@@ -88,6 +89,46 @@ def submit_session(
             detail="Interview session not found."
         )
 
+    def _serialize(sess, transcript_msgs):
+        return {
+            "id": sess.id,
+            "user_id": sess.user_id,
+            "interview_type": sess.interview_type,
+            "custom_role": sess.custom_role,
+            "difficulty": sess.difficulty,
+            "question_count": sess.question_count,
+            "focus_areas": sess.focus_areas,
+            "score": sess.score,
+            "transcript": transcript_msgs,
+            "status": sess.status,
+            "created_at": sess.created_at,
+            "updated_at": sess.updated_at
+        }
+
+    # Idempotency guard #1: if this session was already submitted (e.g. the
+    # user double-clicked, retried after a network blip, or called the API
+    # directly), don't re-run evaluation. Just hand back the existing report.
+    if session.status == "completed":
+        existing_msgs = session.transcript.get("messages", []) if session.transcript else []
+        return _serialize(session, existing_msgs)
+
+    # Idempotency guard #2 (race condition): atomically flip status from
+    # 'in_progress' -> 'completed' as a single conditional UPDATE. If two
+    # submit requests land at nearly the same time, only one of them can
+    # win this update (rowcount == 1); the other sees rowcount == 0 and
+    # falls back to returning whatever the winner produces, instead of
+    # both running evaluation and overwriting each other's results.
+    claimed = db.query(models.InterviewSession).filter(
+        models.InterviewSession.id == session.id,
+        models.InterviewSession.status == "in_progress"
+    ).update({"status": "completed"}, synchronize_session=False)
+    db.commit()
+
+    if claimed == 0:
+        db.refresh(session)
+        existing_msgs = session.transcript.get("messages", []) if session.transcript else []
+        return _serialize(session, existing_msgs)
+
     # Convert Pydantic chat objects to dictionaries for evaluation
     transcript_dicts = [msg.model_dump() for msg in transcript]
 
@@ -95,44 +136,40 @@ def submit_session(
     profile = db.query(models.Profile).filter(models.Profile.user_id == current_user.id).first()
     focus_domain = profile.focus_domain if profile else "Software Engineering"
 
-    # Run AI evaluation
-    evaluation = gemini_service.evaluate_interview(
-        transcript=transcript_dicts,
-        focus_domain=focus_domain
-    )
+    try:
+        # Run AI evaluation
+        evaluation = gemini_service.evaluate_interview(
+            transcript=transcript_dicts,
+            focus_domain=focus_domain
+        )
 
-    # Update database record
-    session.score = evaluation["score"]
-    # Store detailed evaluation and conversation in the transcript column
-    # We combine transcription texts and evaluation metadata into JSON
-    session.transcript = {
-        "messages": transcript_dicts,
-        "evaluation": {
-            "feedback": evaluation["feedback"],
-            "strengths": evaluation["strengths"],
-            "weaknesses": evaluation["weaknesses"]
+        # Update database record
+        session.score = evaluation["score"]
+        # Store detailed evaluation and conversation in the transcript column
+        # We combine transcription texts and evaluation metadata into JSON
+        session.transcript = {
+            "messages": transcript_dicts,
+            "evaluation": {
+                "feedback": evaluation["feedback"],
+                "strengths": evaluation["strengths"],
+                "weaknesses": evaluation["weaknesses"]
+            }
         }
-    }
+        db.commit()
+        db.refresh(session)
+    except Exception:
+        # We already claimed 'completed' above to block concurrent submits.
+        # If evaluation actually fails, release the claim so the user (or a
+        # retry) can submit again instead of being permanently locked out
+        # with no score and no report.
+        session.status = "in_progress"
+        db.commit()
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Failed to evaluate interview. Please try submitting again."
+        )
 
-    db.commit()
-    db.refresh(session)
-    
-    # Return serializable response matching schema
-    # Pydantic will extract transcript messages list automatically if matching models.
-    # Note: Since models.InterviewSession.transcript contains JSON, we'll format it.
-    return {
-        "id": session.id,
-        "user_id": session.user_id,
-        "interview_type": session.interview_type,
-        "custom_role": session.custom_role,
-        "difficulty": session.difficulty,
-        "question_count": session.question_count,
-        "focus_areas": session.focus_areas,
-        "score": session.score,
-        "transcript": transcript_dicts, # return transcript messages back to frontend
-        "created_at": session.created_at,
-        "updated_at": session.updated_at
-    }
+    return _serialize(session, transcript_dicts)
 
 
 @router.get("", response_model=List[schemas.InterviewSessionOut])
@@ -159,6 +196,7 @@ def list_sessions(
             "focus_areas": s.focus_areas,
             "score": s.score,
             "transcript": msgs,
+            "status": s.status,
             "created_at": s.created_at,
             "updated_at": s.updated_at
         })
@@ -195,6 +233,7 @@ def get_session_details(
         "focus_areas": session.focus_areas,
         "score": session.score,
         "transcript": msgs,
+        "status": session.status,
         "created_at": session.created_at,
         "updated_at": session.updated_at
     }

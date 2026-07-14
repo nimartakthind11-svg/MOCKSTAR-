@@ -33,6 +33,10 @@ function AppInner() {
   const [currentSessionIntegrityDetail, setCurrentSessionIntegrityDetail] = useState({ tabSwitchCount: 0, pasteCount: 0 });
   const [aiReport, setAiReport] = useState(null);
   const [sessionStartError, setSessionStartError] = useState(null);
+  // Guards against duplicate /submit calls if "End Interview" fires more
+  // than once (double-click, stray re-render, etc.) while a submission
+  // for this session is already in flight.
+  const [isSubmittingEnd, setIsSubmittingEnd] = useState(false);
 
   // ✅ All hooks at the top level — never inside conditionals
   const { theme, toggleTheme } = useTheme();
@@ -159,7 +163,7 @@ function AppInner() {
               setCurrentSessionId(null);
               setInterviewConfig(null);
               setSessionStartError(
-                "We couldn't start your interview session. Please check your connection and try again."
+                "Our AI service is a bit busy right now, please try again in a minute."
               );
               // Deliberately do NOT navigate to interview-session here —
               // there are no real backend questions to show.
@@ -173,56 +177,71 @@ function AppInner() {
       return (
         <InterviewSession 
           config={interviewConfig}
+          isSubmitting={isSubmittingEnd}
           onEnd={async (transcript, tabSwitchCount = 0, pasteCount = 0) => {
+            // Ignore any repeat invocation while a submission for this
+            // session is already in progress (e.g. rapid double-click on
+            // "End Interview" before the button visually disables).
+            if (isSubmittingEnd) return;
+            setIsSubmittingEnd(true);
+
             let evaluation = null;
             let finalScore = null;
             let evaluationFailed = false;
 
-            if (currentSessionId) {
-              try {
-                const formattedTranscript = transcript.map(m => ({
-                  role: m.role,
-                  text: m.text,
-                  time: m.time || new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-                }));
-                await sessionApi.submit(currentSessionId, formattedTranscript);
-                const report = await sessionApi.getReport(currentSessionId);
-                evaluation = report;
-                finalScore = report.score;
-              } catch (err) {
-                console.error("Error submitting session:", err);
-                evaluationFailed = true;
+            try {
+              if (currentSessionId) {
+                try {
+                  const formattedTranscript = transcript.map(m => ({
+                    role: m.role,
+                    text: m.text,
+                    time: m.time || new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+                  }));
+                  await sessionApi.submit(currentSessionId, formattedTranscript);
+                  const report = await sessionApi.getReport(currentSessionId);
+                  evaluation = report;
+                  finalScore = report.score;
+                } catch (err) {
+                  console.error("Error submitting session:", err);
+                  evaluationFailed = true;
+                }
               }
+
+              const score = finalScore ?? evaluation?.score ?? Math.min(65 + transcript.filter(m => m.role === "candidate").length * 5, 100);
+              // Real integrity score based on detected tab switches and pasted
+              // answers during the session, instead of a hardcoded 100%.
+              // Tab switches cost 10 points each, pastes cost 15 each
+              // (pasting a pre-written answer is a stronger integrity signal
+              // than briefly switching tabs), floored at 0.
+              const integrity = Math.max(0, 100 - tabSwitchCount * 10 - pasteCount * 15);
+              setCurrentSessionScore(score);
+              setCurrentSessionIntegrity(integrity);
+              setCurrentSessionIntegrityDetail({ tabSwitchCount, pasteCount });
+              setInterviewTranscript(transcript);
+              setAiReport(
+                evaluation ||
+                (evaluationFailed
+                  ? { feedback: "AI evaluation couldn't be generated for this session (the evaluation request failed). Showing an estimated score instead.", strengths: [], weaknesses: [] }
+                  : null)
+              );
+
+              // Record the completed session in local state
+              const newSession = {
+                id: currentSessionId || Date.now(),
+                role: interviewConfig?.customRole || interviewConfig?.interviewType || "Practice Session",
+                date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
+                score,
+                scoreColor: score >= 80 ? "#3a8f5e" : score >= 60 ? "#b07d2e" : "#D33F3F",
+              };
+              setSessions(prev => [newSession, ...prev]);
+              // Redirect to the report page as soon as submission resolves.
+              setCurrentView("performance-report");
+            } finally {
+              // Reset regardless of outcome — safe even though this view is
+              // about to unmount, and prevents a stuck disabled button in
+              // any edge case where navigation doesn't happen.
+              setIsSubmittingEnd(false);
             }
-
-            const score = finalScore ?? evaluation?.score ?? Math.min(65 + transcript.filter(m => m.role === "candidate").length * 5, 100);
-            // Real integrity score based on detected tab switches and pasted
-            // answers during the session, instead of a hardcoded 100%.
-            // Tab switches cost 10 points each, pastes cost 15 each
-            // (pasting a pre-written answer is a stronger integrity signal
-            // than briefly switching tabs), floored at 0.
-            const integrity = Math.max(0, 100 - tabSwitchCount * 10 - pasteCount * 15);
-            setCurrentSessionScore(score);
-            setCurrentSessionIntegrity(integrity);
-            setCurrentSessionIntegrityDetail({ tabSwitchCount, pasteCount });
-            setInterviewTranscript(transcript);
-            setAiReport(
-              evaluation ||
-              (evaluationFailed
-                ? { feedback: "AI evaluation couldn't be generated for this session (the evaluation request failed). Showing an estimated score instead.", strengths: [], weaknesses: [] }
-                : null)
-            );
-
-            // Record the completed session in local state
-            const newSession = {
-              id: currentSessionId || Date.now(),
-              role: interviewConfig?.customRole || interviewConfig?.interviewType || "Practice Session",
-              date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
-              score,
-              scoreColor: score >= 80 ? "#3a8f5e" : score >= 60 ? "#b07d2e" : "#D33F3F",
-            };
-            setSessions(prev => [newSession, ...prev]);
-            setCurrentView("performance-report");
           }}
         />
       );

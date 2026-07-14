@@ -362,7 +362,7 @@ const OverviewTab = ({ userProfile, sessions, onUploadResume, onStartSession, on
         Dashboard
       </p>
       <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 500, letterSpacing: "-0.02em", color: "var(--text-primary)", margin: 0, lineHeight: 1.15 }}>
-        Welcome, {userProfile?.username || "there"} 👋
+        Welcome, {userProfile?.username || "there"} 
       </h1>
       <p style={{ marginTop: 8, fontFamily: "'JetBrains Mono', monospace", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--text-muted)" }}>
         {userProfile?.isBuilt ? `Domain: ${userProfile.focusDomain}` : "Domain: Not Set"}

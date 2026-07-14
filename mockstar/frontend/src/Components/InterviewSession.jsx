@@ -16,13 +16,14 @@ const injectStyles = () => {
     .typing-dot:nth-child(2) { animation-delay:0.15s; }
     .typing-dot:nth-child(3) { animation-delay:0.3s; }
     @keyframes typingBounce { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-5px); } }
+    @keyframes isession-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
   `;
   document.head.appendChild(s);
 };
 
 const v = (n) => `var(${n})`;
 
-const InterviewSession = ({ onEnd, config }) => {
+const InterviewSession = ({ onEnd, config, isSubmitting = false }) => {
   injectStyles();
   const [messages, setMessages]             = useState([]);
   const [inputValue, setInputValue]         = useState("");
@@ -237,27 +238,44 @@ const InterviewSession = ({ onEnd, config }) => {
 
         {/* Right: End button */}
         <button
-          onClick={() => onEnd(messages, tabSwitchCount, pasteCount)}
+          onClick={() => {
+            // Ignore additional clicks once a submission is already running.
+            if (isSubmitting) return;
+            onEnd(messages, tabSwitchCount, pasteCount);
+          }}
+          disabled={isSubmitting}
           style={{
             display: "flex",
             alignItems: "center",
             gap: 6,
             padding: "8px 16px",
-            background: "transparent",
+            background: isSubmitting ? "rgba(211,63,63,0.06)" : "transparent",
             border: "1.5px solid var(--border-strong)",
             borderRadius: 999,
-            color: "#D33F3F",
+            color: isSubmitting ? v("--text-muted") : "#D33F3F",
             fontFamily: "'Inter', sans-serif",
             fontWeight: 600,
             fontSize: "0.83rem",
-            cursor: "pointer",
+            cursor: isSubmitting ? "not-allowed" : "pointer",
+            opacity: isSubmitting ? 0.7 : 1,
             transition: "all 0.2s",
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = "rgba(211,63,63,0.08)"; e.currentTarget.style.borderColor = "#D33F3F"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "var(--border-strong)"; }}
+          onMouseEnter={e => { if (!isSubmitting) { e.currentTarget.style.background = "rgba(211,63,63,0.08)"; e.currentTarget.style.borderColor = "#D33F3F"; } }}
+          onMouseLeave={e => { if (!isSubmitting) { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "var(--border-strong)"; } }}
         >
-          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/></svg>
-          End Interview
+          {isSubmitting ? (
+            <>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" style={{ animation: "isession-spin 0.8s linear infinite" }}>
+                <path d="M12 2a10 10 0 0 1 10 10" />
+              </svg>
+              Generating Report…
+            </>
+          ) : (
+            <>
+              <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="currentColor" stroke="none"/></svg>
+              End Interview
+            </>
+          )}
         </button>
       </header>
 
@@ -393,8 +411,8 @@ const InterviewSession = ({ onEnd, config }) => {
                 onChange={e => setInputValue(e.target.value)}
                 onPaste={handlePaste}
                 onKeyDown={e => e.key === "Enter" && handleSendMessage()}
-                disabled={isAiThinking || isComplete}
-                placeholder={isComplete ? "Interview complete" : "Type your response…"}
+                disabled={isAiThinking || isComplete || isSubmitting}
+                placeholder={isSubmitting ? "Generating your report…" : isComplete ? "Interview complete" : "Type your response…"}
                 style={{
                   width: "100%",
                   padding: "14px 52px 14px 20px",
@@ -407,7 +425,7 @@ const InterviewSession = ({ onEnd, config }) => {
                   outline: "none",
                   transition: "border-color 0.2s, box-shadow 0.2s",
                   boxSizing: "border-box",
-                  opacity: isComplete ? 0.5 : 1,
+                  opacity: (isComplete || isSubmitting) ? 0.5 : 1,
                 }}
                 onFocus={e => { if (!isComplete) { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.boxShadow = "var(--shadow-glow)"; } }}
                 onBlur={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.boxShadow = "none"; }}
