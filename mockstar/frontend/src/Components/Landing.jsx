@@ -320,25 +320,25 @@ export default function Landing({ onStartPractice }) {
         <FadeUp>
           <div
             style={{
-              maxWidth: 1100, margin: '0 auto', background: 'var(--dark-bg)',
+              maxWidth: 1100, margin: '0 auto', background: 'linear-gradient(135deg, #060505 0%, #474644 45%, #14120f 100%)',border : '1px solid rgba(255,255,255,0.06)',
               borderRadius: 40, padding: '100px 40px', textAlign: 'center',
-              position: 'relative', overflow: 'hidden', boxShadow: 'var(--shadow-lg)'
+              position: 'relative', overflow: 'hidden', boxShadow:  '0 20px 60px rgba(112, 111, 109, 0.35)'
             }}
           >
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, height: 400, background: 'radial-gradient(ellipse at center, rgba(59, 56, 56, 0.15) 0%, transparent 60%)', pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 600, height: 400, background: 'radial-gradient(circle, rgba(184, 190, 144, 0.25) 0%, transparent 70%)', pointerEvents: 'none' }} />
             
             <div style={{ position: 'relative', zIndex: 1, maxWidth: 600, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 'clamp(3rem, 6vw, 4.5rem)', fontWeight: 500, color: '#F8F5F2', marginBottom: 24, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
                 Stop winging it
               </h2>
-              <p style={{ fontSize: 20, color: '#A89E98', marginBottom: 48, lineHeight: 1.5, fontWeight: 400 }}>
+              <p style={{ fontSize: 20, color: '#d9d4d1', marginBottom: 48, lineHeight: 1.5, fontWeight: 400 }}>
                 Practice AI-powered interviews tailored to your resume, receive instant feedback, and walk into every interview with confidence
               </p>
               <button
                 onClick={onStartPractice}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 10, padding: '18px 48px',
-                  background: 'white', color: '#131416', border: 'none', borderRadius: 999,
+                  background: 'white', color: '#314979', border: 'none', borderRadius: 999,
                   fontSize: 16, fontWeight: 600, fontFamily: "'Inter', sans-serif", cursor: 'pointer',
                   transition: 'all 0.3s ease', boxShadow: '0 8px 32px rgba(255,255,255,0.1)',
                 }}
