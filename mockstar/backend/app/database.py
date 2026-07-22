@@ -6,6 +6,11 @@ from app.config import settings
 DATABASE_URL = settings.DATABASE_URL
 connect_args = {}
 
+is_prod = settings.ENVIRONMENT.lower() == "production"
+
+if is_prod and (not DATABASE_URL or DATABASE_URL.startswith("sqlite")):
+    raise RuntimeError("SQLite is not allowed in production. Please configure a valid PostgreSQL DATABASE_URL.")
+
 try:
     if DATABASE_URL.startswith("sqlite"):
         connect_args["check_same_thread"] = False
@@ -16,6 +21,8 @@ try:
         pass
     print("Database: Connected to PostgreSQL database successfully.")
 except Exception as e:
+    if is_prod:
+        raise RuntimeError(f"Database connection failed in production: {e}") from e
     print(f"Database: Warning - Connection failed ({e}). Falling back to local SQLite database.")
     # Place sqlite db in the backend directory
     sqlite_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "mockstar.db")

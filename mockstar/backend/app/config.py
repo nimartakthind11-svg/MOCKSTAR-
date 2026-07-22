@@ -2,6 +2,10 @@ import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
+    # Environment Configuration
+    ENVIRONMENT: str = "production"
+    ALLOWED_ORIGINS: str = ""
+
     # Port configuration
     PORT: int = 8000
 

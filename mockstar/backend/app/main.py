@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
 from app.routers import auth, profile, resumes, sessions
 from app import models
+from app.config import settings
 
 # Automatically create database tables from SQLAlchemy models
 try:
@@ -20,13 +21,17 @@ app = FastAPI(
 )
 
 # Configure CORS (Cross-Origin Resource Sharing)
-# Allows frontend clients (e.g. React running on port 5173) to communicate with this server
+if not settings.ALLOWED_ORIGINS:
+    raise RuntimeError("ALLOWED_ORIGINS environment variable is missing or empty. Please specify allowed origins for CORS.")
+
+allowed_origins = [origin.strip() for origin in settings.ALLOWED_ORIGINS.split(",") if origin.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, restrict this to specific origins (e.g. ["http://localhost:5173"])
+    allow_origins=allowed_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"],
 )
 
 # Register API routers
