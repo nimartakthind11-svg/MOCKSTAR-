@@ -1,19 +1,10 @@
 import json
-import os
 import time
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
 from google import genai
 from google.genai import types
 from app.config import settings
-
-# By default the app REQUIRES a working Gemini API key and will raise loud
-# errors instead of silently serving mock questions/evaluations. Set
-# ALLOW_MOCK_FALLBACK=true in the environment only if you explicitly want
-# the mock fallback (e.g. local dev without an API key).
-ALLOW_MOCK_FALLBACK = getattr(settings, "ALLOW_MOCK_FALLBACK", None)
-if ALLOW_MOCK_FALLBACK is None:
-    ALLOW_MOCK_FALLBACK = os.getenv("ALLOW_MOCK_FALLBACK", "false").lower() == "true"
 
 # Gemini's own client already retries transient errors internally, but it can
 # still give up during real demand spikes. A couple of extra retries here
@@ -44,7 +35,7 @@ class GeminiNotConfiguredError(RuntimeError):
 
 
 class GeminiRequestError(RuntimeError):
-    """Raised when a Gemini API call fails and mock fallback is disabled."""
+    """Raised when a Gemini API call fails."""
 
 # Structured output Pydantic schemas
 class QuestionList(BaseModel):
@@ -56,30 +47,6 @@ class InterviewEvaluation(BaseModel):
     strengths: List[str]
     weaknesses: List[str]
 
-
-# Fallback/Mock Questions Bank in case Gemini API is not configured or fails
-MOCK_QUESTIONS = {
-    "technical": [
-        "What is the difference between synchronous and asynchronous operations?",
-        "Can you explain how indexes improve search performance in a PostgreSQL database?",
-        "How do you handle state management across components in a complex web application?",
-        "Describe a design pattern you find useful and how you've implemented it.",
-        "What are some key strategies for optimizing web application loading performance?"
-    ],
-    "behavioral": [
-        "Tell me about a time you had a conflict with a teammate. How did you resolve it?",
-        "Describe a challenging technical problem you solved recently and your approach.",
-        "How do you prioritize your tasks when working on multiple projects with tight deadlines?",
-        "Tell me about a time you failed to meet expectations. What did you learn from it?",
-        "How do you stay up-to-date with new technologies and frameworks?"
-    ],
-    "mixed": [
-        "What is the difference between a GET and POST request in REST APIs?",
-        "Describe a time you had to adapt quickly to a major shift in project requirements.",
-        "How do you approach database schema normalization vs denormalization?",
-        "How do you handle constructive criticism or code review feedback from peers?"
-    ]
-}
 
 class GeminiService:
     def __init__(self):
@@ -102,10 +69,7 @@ class GeminiService:
                 print(f"ERROR initializing Gemini client: {e}")
         else:
             self.init_error = "GEMINI_API_KEY is not set (or is still the placeholder value)."
-            if ALLOW_MOCK_FALLBACK:
-                print(f"WARNING: {self.init_error} Mock responses will be used (ALLOW_MOCK_FALLBACK=true).")
-            else:
-                print(f"ERROR: {self.init_error} Set a real key in .env, or set ALLOW_MOCK_FALLBACK=true to use mock data.")
+            print(f"ERROR: {self.init_error} Set a real key in .env.")
 
     def generate_questions(
         self,
@@ -117,20 +81,13 @@ class GeminiService:
     ) -> List[str]:
         """
         Generates custom interview questions based on the candidate's setup and resume.
-        Falls back to mock questions if Gemini is disabled or errors out.
         """
-        # Client not configured: fail loudly unless mock fallback was explicitly enabled
+        # Client not configured: fail loudly
         if not self.client:
-            if not ALLOW_MOCK_FALLBACK:
-                raise GeminiNotConfiguredError(
-                    f"Gemini client is not configured ({self.init_error}). "
-                    "Set a valid GEMINI_API_KEY in your .env file, or set "
-                    "ALLOW_MOCK_FALLBACK=true to explicitly use mock questions."
-                )
-            print("Gemini: Using mock questions fallback (ALLOW_MOCK_FALLBACK=true).")
-            import random
-            pool = MOCK_QUESTIONS.get(interview_type.lower(), MOCK_QUESTIONS["mixed"])
-            return random.sample(pool, min(question_count, len(pool)))
+            raise GeminiNotConfiguredError(
+                f"Gemini client is not configured ({self.init_error}). "
+                "Set a valid GEMINI_API_KEY in your .env file."
+            )
 
         # Construct prompt
         focus_str = ", ".join(focus_areas) if focus_areas else "General Topics"
@@ -163,37 +120,19 @@ class GeminiService:
             return data.get("questions", [])
             
         except Exception as e:
-            if not ALLOW_MOCK_FALLBACK:
-                print(f"ERROR: Gemini call failed during question generation: {e}")
-                raise GeminiRequestError(f"Gemini question generation failed: {e}") from e
-            print(f"Gemini error during question generation: {e}. Falling back to mock questions (ALLOW_MOCK_FALLBACK=true).")
-            import random
-            pool = MOCK_QUESTIONS.get(interview_type.lower(), MOCK_QUESTIONS["mixed"])
-            return random.sample(pool, min(question_count, len(pool)))
+            print(f"ERROR: Gemini call failed during question generation: {e}")
+            raise GeminiRequestError(f"Gemini question generation failed: {e}") from e
 
     def evaluate_interview(self, transcript: List[Dict[str, Any]], focus_domain: Optional[str] = None) -> Dict[str, Any]:
         """
         Evaluates a mock interview transcript. Computes a grade (0-100) and extracts key strengths/weaknesses.
-        Falls back to computed scores if Gemini is disabled or errors out.
         """
-        # Client not configured: fail loudly unless mock fallback was explicitly enabled
+        # Client not configured: fail loudly
         if not self.client:
-            if not ALLOW_MOCK_FALLBACK:
-                raise GeminiNotConfiguredError(
-                    f"Gemini client is not configured ({self.init_error}). "
-                    "Set a valid GEMINI_API_KEY in your .env file, or set "
-                    "ALLOW_MOCK_FALLBACK=true to explicitly use a computed fallback score."
-                )
-            print("Gemini: Using calculated evaluation fallback (ALLOW_MOCK_FALLBACK=true).")
-            # Calculate mock score based on transcript length as in frontend logic
-            cand_msgs = [m for m in transcript if m.get("role") == "candidate"]
-            score = min(65 + len(cand_msgs) * 5, 95)
-            return {
-                "score": score,
-                "feedback": "This is a default evaluation feedback. Please configure a valid Gemini API key in the backend to enable detailed AI feedback.",
-                "strengths": ["Answered all questions", "Good structure"],
-                "weaknesses": ["Could provide deeper technical detail in answers"]
-            }
+            raise GeminiNotConfiguredError(
+                f"Gemini client is not configured ({self.init_error}). "
+                "Set a valid GEMINI_API_KEY in your .env file."
+            )
 
         # Convert transcript list to string representation
         transcript_str = ""
@@ -230,18 +169,8 @@ class GeminiService:
             }
             
         except Exception as e:
-            if not ALLOW_MOCK_FALLBACK:
-                print(f"ERROR: Gemini call failed during evaluation: {e}")
-                raise GeminiRequestError(f"Gemini evaluation failed: {e}") from e
-            print(f"Gemini error during evaluation: {e}. Falling back to default scoring (ALLOW_MOCK_FALLBACK=true).")
-            cand_msgs = [m for m in transcript if m.get("role") == "candidate"]
-            score = min(65 + len(cand_msgs) * 5, 95)
-            return {
-                "score": score,
-                "feedback": f"An error occurred during AI evaluation: {e}",
-                "strengths": ["Completed the session"],
-                "weaknesses": ["Unable to fetch detailed AI analysis"]
-            }
+            print(f"ERROR: Gemini call failed during evaluation: {e}")
+            raise GeminiRequestError(f"Gemini evaluation failed: {e}") from e
 
 # Singleton instance
 gemini_service = GeminiService()
