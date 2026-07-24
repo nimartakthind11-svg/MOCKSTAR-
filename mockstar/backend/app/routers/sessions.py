@@ -29,19 +29,25 @@ def start_session(
     profile = db.query(models.Profile).filter(models.Profile.user_id == current_user.id).first()
     focus_domain = profile.focus_domain if profile else "Software Engineering"
 
-    # Generate questions using Gemini Service
-    questions = gemini_service.generate_questions(
-        interview_type=config.interview_type,
-        difficulty=config.difficulty,
-        focus_areas=config.focus_areas,
-        question_count=config.question_count,
-        resume_text=resume_text
-    )
+    try:
+        # Generate questions using Gemini Service
+        questions = gemini_service.generate_questions(
+            interview_type=config.interview_type,
+            difficulty=config.difficulty,
+            focus_areas=config.focus_areas,
+            question_count=config.question_count,
+            resume_text=resume_text
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Gemini API Error: {str(e)}"
+        )
 
     if not questions:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to generate interview questions."
+            detail="Failed to generate interview questions. The model returned an empty list."
         )
 
     # Save initial interview session in database
