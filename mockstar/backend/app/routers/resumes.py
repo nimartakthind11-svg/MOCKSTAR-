@@ -102,7 +102,14 @@ async def upload_resume(
             
         db.commit()
         db.refresh(db_resume)
-        return db_resume
+        return {
+            "id": db_resume.id,
+            "user_id": db_resume.user_id,
+            "file_name": db_resume.file_name,
+            "predicted_domain": db_resume.predicted_domain,
+            "extracted_skills": parsed_data.get("skills", []),
+            "uploaded_at": db_resume.uploaded_at
+        }
 
     except HTTPException:
         # Let intentional errors (413 too large, 400 empty file, etc.) pass through

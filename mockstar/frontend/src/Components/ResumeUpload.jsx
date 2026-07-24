@@ -72,7 +72,7 @@ const ResumeUpload = ({ onBack, onContinue }) => {
         domain: result.predicted_domain || "General Software Engineering",
         // Match strength: not returned by backend, derive a plausible value
         matchStrength: Math.floor(Math.random() * 25) + 65,
-        skills: [], // Will be populated once profile is refreshed; show empty for now
+        skills: result.extracted_skills || [], // Populated from backend parsing
         resumeId: result.id,
       });
     } catch (err) {

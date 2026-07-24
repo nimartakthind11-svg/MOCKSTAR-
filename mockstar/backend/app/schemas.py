@@ -62,6 +62,7 @@ class ResumeOut(BaseModel):
     user_id: UUID
     file_name: str
     predicted_domain: Optional[str] = None
+    extracted_skills: Optional[List[str]] = None
     uploaded_at: datetime
 
     class Config:

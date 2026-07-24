@@ -169,7 +169,9 @@ function AppInner() {
               setCurrentSessionId(null);
               setInterviewConfig(null);
               setSessionStartError(
-                "Our AI service is a bit busy right now, please try again in a minute."
+                err.message && err.message !== "Internal Server Error" 
+                  ? err.message 
+                  : "Our AI service is a bit busy right now, please try again in a minute."
               );
               // Deliberately do NOT navigate to interview-session here —
               // there are no real backend questions to show.
