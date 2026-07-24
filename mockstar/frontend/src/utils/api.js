@@ -30,7 +30,9 @@ async function request(method, path, body = null) {
       const err = await res.json();
       errDetail = err.detail || JSON.stringify(err);
     } catch (_) {}
-    throw new Error(errDetail);
+    const error = new Error(errDetail);
+    error.status = res.status;
+    throw error;
   }
 
   // Some endpoints return 204 No Content
