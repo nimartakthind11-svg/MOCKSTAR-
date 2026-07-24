@@ -23,8 +23,8 @@ const Hero = ({ onStartPractice }) => {
     <section style={{ position: 'relative', width: '100%', minHeight: '100vh', display: 'flex', overflow: 'hidden', background: 'var(--bg-primary)' }}>
       
       {/* Background Gradients & Grid */}
-      <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '80%', background: 'radial-gradient(ellipse at top right, rgba(182,94,66,0.12) 0%, transparent 60%)', zIndex: 0, pointerEvents: 'none' }} />
-      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '40%', height: '60%', background: 'radial-gradient(ellipse at bottom left, rgba(182,94,66,0.08) 0%, transparent 60%)', zIndex: 0, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: 0, right: 0, width: '60%', height: '80%', background: 'radial-gradient(ellipse at top right, var(--accent-alpha-12) 0%, transparent 60%)', zIndex: 0, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: 0, left: 0, width: '40%', height: '60%', background: 'radial-gradient(ellipse at bottom left, var(--accent-alpha-08) 0%, transparent 60%)', zIndex: 0, pointerEvents: 'none' }} />
       
       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(to right, var(--border) 1px, transparent 1px), linear-gradient(to bottom, var(--border) 1px, transparent 1px)', backgroundSize: '64px 64px', opacity: 0.4, maskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)', zIndex: 0, pointerEvents: 'none' }} />
 

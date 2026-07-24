@@ -263,14 +263,14 @@ const ResumeUpload = ({ onBack, onContinue }) => {
                 border: isDragging
                   ? "2px dashed var(--accent)"
                   : uploadedFile
-                  ? "2px solid rgba(182,94,66,0.5)"
+                  ? "2px solid var(--accent-alpha-50)"
                   : "2px dashed var(--border-strong)",
                 borderRadius: 20,
                 padding: "52px 32px",
                 background: isDragging
                   ? "var(--accent-soft)"
                   : uploadedFile
-                  ? "rgba(182,94,66,0.04)"
+                  ? "var(--accent-alpha-04)"
                   : "var(--bg-card)",
                 display: "flex",
                 flexDirection: "column",
@@ -280,14 +280,14 @@ const ResumeUpload = ({ onBack, onContinue }) => {
                 boxShadow: isDragging
                   ? "0 0 0 4px var(--accent-glow)"
                   : uploadedFile
-                  ? "0 0 0 3px rgba(182,94,66,0.1)"
+                  ? "0 0 0 3px var(--accent-alpha-10)"
                   : "var(--shadow-sm)",
               }}
               onMouseEnter={e => {
                 if (!isDragging && !uploadedFile) {
-                  e.currentTarget.style.borderColor = "rgba(182,94,66,0.5)";
+                  e.currentTarget.style.borderColor = "var(--accent-alpha-50)";
                   e.currentTarget.style.boxShadow = "0 0 0 4px var(--accent-glow)";
-                  e.currentTarget.style.background = "rgba(182,94,66,0.03)";
+                  e.currentTarget.style.background = "var(--accent-alpha-03)";
                 }
               }}
               onMouseLeave={e => {

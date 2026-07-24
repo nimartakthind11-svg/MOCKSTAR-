@@ -5,31 +5,40 @@
 ══════════════════════════════════════════════════ */
 :root {
   /* Backgrounds */
-  --bg-primary:     #F8F5F2;
-  --bg-card:        #FFFFFF;
-  --bg-card-hover:  #FDFAF8;
-  --bg-nav:         rgba(248, 245, 242, 0.82);
+  --bg-primary:     radial-gradient(ellipse at top left, #FAF7F2 0%, #E8DFD5 100%);
+  --bg-card:        rgba(255, 255, 255, 0.95);
+  --bg-card-hover:  rgba(255, 253, 250, 0.98);
+  --bg-nav:         rgba(250, 247, 242, 0.88);
   --bg-input:       #FFFFFF;
-  --bg-subtle:      #F2EDE8;
+  --bg-subtle:      #F4EBE2;
 
   /* Brand */
-  --accent:         #ae583e;
-  --accent-hover:   #A24E34;
-  --accent-light:   #D98A68;
-  --accent-glow:    rgba(182, 94, 66, 0.18);
-  --accent-soft:    rgba(182, 94, 66, 0.08);
-  --accent-medium:  rgba(182, 94, 66, 0.15);
+  --accent:         #c45337;
+  --accent-hover:   #a83d24;
+  --accent-light:   #e29578;
+  --accent-glow:    rgba(196, 83, 55, 0.16);
+  --accent-soft:    rgba(196, 83, 55, 0.06);
+  --accent-medium:  rgba(196, 83, 55, 0.12);
+
+  /* Brand opacity tokens for JS inline styling */
+  --accent-alpha-50: rgba(196, 83, 55, 0.50);
+  --accent-alpha-40: rgba(196, 83, 55, 0.40);
+  --accent-alpha-12: rgba(196, 83, 55, 0.12);
+  --accent-alpha-10: rgba(196, 83, 55, 0.10);
+  --accent-alpha-08: rgba(196, 83, 55, 0.08);
+  --accent-alpha-04: rgba(196, 83, 55, 0.04);
+  --accent-alpha-03: rgba(196, 83, 55, 0.03);
 
   /* Text */
   --text-primary:   #1C1B1A;
-  --text-secondary: #4A4440;
-  --text-muted:     #7A706A;
-  --text-faint:     #A89E98;
+  --text-secondary: #4E443F;
+  --text-muted:     #857770;
+  --text-faint:     #B5A79E;
 
   /* Borders */
-  --border:         #E7DFD7;
-  --border-strong:  #CEC5BC;
-  --border-focus:   #B65E42;
+  --border:         #EADCD0;
+  --border-strong:  #DECFC2;
+  --border-focus:   #c45337;
 
   /* Dark card (for CTA sections) */
   --dark-bg:        #131416;
@@ -37,12 +46,12 @@
   --dark-border:    #2E2B28;
 
   /* Shadows */
-  --shadow-xs:      0 1px 2px rgba(28, 27, 26, 0.04);
-  --shadow-sm:      0 2px 8px rgba(28, 27, 26, 0.06), 0 1px 2px rgba(28, 27, 26, 0.04);
-  --shadow-md:      0 4px 16px rgba(28, 27, 26, 0.08), 0 2px 4px rgba(28, 27, 26, 0.04);
-  --shadow-lg:      0 12px 40px rgba(28, 27, 26, 0.10), 0 4px 8px rgba(28, 27, 26, 0.04);
-  --shadow-glow:    0 0 0 3px rgba(182, 94, 66, 0.15);
-  --shadow-card:    0 2px 8px rgba(28, 27, 26, 0.06);
+  --shadow-xs:      0 1px 2px rgba(196, 83, 55, 0.03);
+  --shadow-sm:      0 3px 12px rgba(196, 83, 55, 0.05), 0 1px 2px rgba(196, 83, 55, 0.03);
+  --shadow-md:      0 8px 24px rgba(196, 83, 55, 0.07), 0 2px 6px rgba(196, 83, 55, 0.04);
+  --shadow-lg:      0 20px 48px rgba(196, 83, 55, 0.10), 0 4px 12px rgba(196, 83, 55, 0.04);
+  --shadow-glow:    0 0 0 3px rgba(196, 83, 55, 0.15);
+  --shadow-card:    0 6px 18px rgba(196, 83, 55, 0.06);
 
   /* Radii */
   --radius-sm:      8px;
@@ -53,8 +62,8 @@
   --radius-full:    9999px;
 
   /* Nav */
-  --nav-active-bg:  rgba(182, 94, 66, 0.08);
-  --toggle-track:   #E7DFD7;
+  --nav-active-bg:  rgba(196, 83, 55, 0.08);
+  --toggle-track:   #EDE5DC;
   --toggle-thumb:   #1C1B1A;
 }
 
@@ -75,6 +84,15 @@ html.dark {
   --accent-glow:    rgba(217, 138, 104, 0.20);
   --accent-soft:    rgba(217, 138, 104, 0.10);
   --accent-medium:  rgba(217, 138, 104, 0.18);
+
+  /* Brand opacity tokens for JS inline styling */
+  --accent-alpha-50: rgba(217, 138, 104, 0.50);
+  --accent-alpha-40: rgba(217, 138, 104, 0.40);
+  --accent-alpha-12: rgba(217, 138, 104, 0.12);
+  --accent-alpha-10: rgba(217, 138, 104, 0.10);
+  --accent-alpha-08: rgba(217, 138, 104, 0.08);
+  --accent-alpha-04: rgba(217, 138, 104, 0.04);
+  --accent-alpha-03: rgba(217, 138, 104, 0.03);
 
   --text-primary:   #F5F2EE;
   --text-secondary: #C8BFB8;
@@ -161,7 +179,7 @@ body {
 }
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
-  50%       { box-shadow: 0 0 0 8px rgba(182, 94, 66, 0); }
+  50%       { box-shadow: 0 0 0 8px rgba(196, 83, 55, 0); }
 }
 @keyframes spin {
   to { transform: rotate(360deg); }
@@ -257,9 +275,13 @@ html.dark .theme-toggle__thumb {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-sm);
-  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 .ms-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-soft);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
@@ -959,75 +981,74 @@ html.dark .auth-backdrop {
   cursor: not-allowed;
   pointer-events: none;
 }
-
 /* ── Light theme vibrancy ── */
 html:not(.dark) .auth-backdrop {
-  background: rgba(255, 246, 240, 0.88);
+  background: rgba(255, 248, 245, 0.90);
 }
 html:not(.dark) .auth-orb--1 {
-  opacity: 0.75;
-  background: rgba(182, 94, 66, 0.28);
+  opacity: 0.8;
+  background: rgba(196, 83, 55, 0.22);
 }
 html:not(.dark) .auth-orb--2 {
-  opacity: 0.65;
-  background: rgba(217, 138, 104, 0.22);
+  opacity: 0.7;
+  background: rgba(226, 149, 120, 0.18);
 }
 html:not(.dark) .auth-modal {
   box-shadow:
     var(--shadow-lg),
-    0 0 0 1px rgba(182, 94, 66, 0.08),
-    0 0 80px rgba(182, 94, 66, 0.14),
-    0 24px 64px rgba(182, 94, 66, 0.1);
+    0 0 0 1px rgba(196, 83, 55, 0.08),
+    0 0 80px rgba(196, 83, 55, 0.12),
+    0 24px 64px rgba(196, 83, 55, 0.08);
 }
 html:not(.dark) .auth-panel {
-  background: linear-gradient(155deg, #FFFAF7 0%, #F9EDE5 45%, #F3E0D4 100%);
-  border-right-color: rgba(182, 94, 66, 0.12);
+  background: linear-gradient(155deg, #FFFDFB 0%, #F5ECE5 45%, #EADAD0 100%);
+  border-right-color: rgba(196, 83, 55, 0.12);
 }
 html:not(.dark) .auth-panel-glow {
-  background: radial-gradient(circle, rgba(182, 94, 66, 0.22) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(196, 83, 55, 0.20) 0%, transparent 65%);
   width: 340px;
   height: 340px;
 }
 html:not(.dark) .auth-panel-grid {
   opacity: 0.5;
   background-image:
-    linear-gradient(rgba(182, 94, 66, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(182, 94, 66, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(196, 83, 55, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 83, 55, 0.06) 1px, transparent 1px);
 }
 html:not(.dark) .auth-brand-icon {
-  box-shadow: 0 0 20px rgba(182, 94, 66, 0.45);
+  box-shadow: 0 0 20px rgba(196, 83, 55, 0.40);
 }
 html:not(.dark) .auth-feature {
-  background: rgba(255, 255, 255, 0.75);
-  border-color: rgba(182, 94, 66, 0.14);
-  box-shadow: 0 2px 10px rgba(182, 94, 66, 0.07);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(196, 83, 55, 0.12);
+  box-shadow: 0 2px 10px rgba(196, 83, 55, 0.05);
 }
 html:not(.dark) .auth-feature:hover {
   background: #FFFFFF;
-  border-color: rgba(182, 94, 66, 0.28);
-  box-shadow: 0 4px 16px rgba(182, 94, 66, 0.12);
+  border-color: rgba(196, 83, 55, 0.24);
+  box-shadow: 0 4px 16px rgba(196, 83, 55, 0.10);
 }
 html:not(.dark) .auth-feature-icon {
-  background: rgba(182, 94, 66, 0.12);
+  background: rgba(196, 83, 55, 0.10);
 }
 html:not(.dark) .auth-form-panel {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FDF8F5 100%);
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFDFB 100%);
 }
 html:not(.dark) .auth-tabs {
-  background: rgba(182, 94, 66, 0.06);
-  border-color: rgba(182, 94, 66, 0.12);
+  background: rgba(196, 83, 55, 0.05);
+  border-color: rgba(196, 83, 55, 0.10);
 }
 html:not(.dark) .auth-input {
   background: #FFFFFF;
-  border-color: rgba(182, 94, 66, 0.15);
+  border-color: rgba(196, 83, 55, 0.12);
 }
 html:not(.dark) .auth-input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(182, 94, 66, 0.12), var(--shadow-glow);
+  box-shadow: 0 0 0 3px rgba(196, 83, 55, 0.10), var(--shadow-glow);
 }
 html:not(.dark) .auth-social-btn:disabled {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(182, 94, 66, 0.1);
+  border-color: rgba(196, 83, 55, 0.08);
 }
 
 @media (max-width: 720px) {

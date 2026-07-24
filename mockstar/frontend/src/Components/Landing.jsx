@@ -203,7 +203,7 @@ export default function Landing({ onStartPractice }) {
             {/* Large Card 1 */}
             <FadeUp delay={0.1}>
               <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -217,7 +217,7 @@ export default function Landing({ onStartPractice }) {
             {/* Large Card 2 */}
                         <FadeUp delay={0.1}>
               <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -231,7 +231,7 @@ export default function Landing({ onStartPractice }) {
             {/* Large Card 3 */}
                         <FadeUp delay={0.1}>
               <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -246,7 +246,7 @@ export default function Landing({ onStartPractice }) {
             {/* Large Card 4 */}
                         <FadeUp delay={0.1}>
               <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -260,7 +260,7 @@ export default function Landing({ onStartPractice }) {
             {/* Large Card 5 */}
                         <FadeUp delay={0.1}>
               <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
@@ -274,7 +274,7 @@ export default function Landing({ onStartPractice }) {
             {/* Large Card 6 */}
                         <FadeUp delay={0.1}>
               <div className="bento-card" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', borderRadius: 32, padding: 48, height: '100%', display: 'flex', flexDirection: 'column', gridColumn: '1 / -1', position: 'relative', overflow: 'hidden' }}>
-                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)' }} />
+                <div style={{ position: 'absolute', right: -100, top: -100, width: 400, height: 400, background: 'radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)' }} />
                 <div style={{ position: 'relative', zIndex: 1, maxWidth: 600 }}>
                   <div style={{ width: 56, height: 56, borderRadius: 16, background: 'var(--bg-card)', border: '1px solid var(--border)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                     <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>

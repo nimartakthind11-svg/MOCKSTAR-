@@ -103,7 +103,7 @@ const BuildProfile = ({ initialProfile, onSave, onCancel }) => {
           transform: "translateX(-50%)",
           width: 600,
           height: 400,
-          background: "radial-gradient(ellipse, rgba(182,94,66,0.08) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse, var(--accent-alpha-08) 0%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
@@ -186,7 +186,7 @@ const BuildProfile = ({ initialProfile, onSave, onCancel }) => {
             transform: "translateX(-50%)",
             width: 260,
             height: 120,
-            background: "radial-gradient(ellipse, rgba(182,94,66,0.1) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse, var(--accent-alpha-10) 0%, transparent 70%)",
             pointerEvents: "none",
           }}
         />

@@ -32,7 +32,7 @@ const OptionCard = ({ label, sublabel, icon, selected, onClick, delay = "0s" }) 
         gap: 6,
         padding: "18px 20px",
         borderRadius: 16,
-        border: selected ? `2px solid ${v("--accent")}` : `1.5px solid ${hovered ? "rgba(182,94,66,0.4)" : v("--border")}`,
+        border: selected ? `2px solid ${v("--accent")}` : `1.5px solid ${hovered ? "var(--accent-alpha-40)" : v("--border")}`,
         background: selected ? v("--accent-soft") : hovered ? "var(--bg-card-hover)" : v("--bg-card"),
         boxShadow: selected ? "0 0 0 3px var(--accent-glow)" : "var(--shadow-xs)",
         cursor: "pointer",
@@ -230,7 +230,7 @@ const InterviewSetup = ({ onBack, onStart, startError }) => {
                         transition: "all 0.18s",
                         boxShadow: active ? "0 0 0 3px var(--accent-glow)" : v("--shadow-xs"),
                       }}
-                      onMouseEnter={e => { if (!active) { e.currentTarget.style.borderColor = "rgba(182,94,66,0.4)"; } }}
+                      onMouseEnter={e => { if (!active) { e.currentTarget.style.borderColor = "var(--accent-alpha-40)"; } }}
                       onMouseLeave={e => { if (!active) { e.currentTarget.style.borderColor = "var(--border)"; } }}
                     >
                       {n}
@@ -264,7 +264,7 @@ const InterviewSetup = ({ onBack, onStart, startError }) => {
                         transition: "all 0.18s",
                         boxShadow: active ? "0 0 0 2px var(--accent-glow)" : "none",
                       }}
-                      onMouseEnter={e => { if (!active) { e.currentTarget.style.borderColor = "rgba(182,94,66,0.4)"; e.currentTarget.style.color = "var(--accent)"; } }}
+                      onMouseEnter={e => { if (!active) { e.currentTarget.style.borderColor = "var(--accent-alpha-40)"; e.currentTarget.style.color = "var(--accent)"; } }}
                       onMouseLeave={e => { if (!active) { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--text-muted)"; } }}
                     >
                       {area}
