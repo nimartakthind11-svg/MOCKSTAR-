@@ -68,7 +68,13 @@ function AppInner() {
           })));
         }
       })
-      .catch(() => clearToken()); // Token expired or invalid — clear it
+      .catch((err) => {
+        if (err.status === 401) {
+          clearToken(); // Token expired or invalid — clear it
+        } else {
+          console.error("Failed to load user profile or sessions:", err);
+        }
+      });
   }, []);
 
   const openAuth = (mode = "login") => {
